@@ -4,105 +4,50 @@ import {
   Text,
   StyleSheet,
   Image,
-  Dimensions,
   StatusBar,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 
+import EpinForgetContainer from '../../Container/UserSignUp/EpinForgetContainer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-
-const color = {
-  body: '#41CCC9',
-  highlight: '#4D98CF',
-  shadow: '#5A5386',
-  button: '#524364',
-  white: '#FFFFFF',
-  black: '#000000',
-  wrong: '#900',
-  right: '#090',
-};
-
-const grid = {
-  unit: 16,
-  headline: 32,
-  title: 24,
-  subheader: 18,
-  body: 14,
-  caption: 12,
-  label: 10,
-  lineHeight: 1.5,
-  navIcon: 20,
-  border: 2,
-  borderRadius: 2,
-  lowOpacity: 0.4,
-  mediumOpacity: 0.6,
-  highOpacity: 0.8,
-  screenWidth: Math.round(Dimensions.get('screen').width),
-  screenHeight: Math.round(Dimensions.get('screen').height),
-  statusbarHeight: StatusBar.currentHeight,
-  forgotIcon: 'phonelink-lock',
-  logoImage_Http_URL: {
-    uri:
-      'https://cdn.clipart.email/7dd95b6e86cfb39037fa78c2f06a92fd_guidelines-to-use-survey-maps_1571-1600.png',
-  },
-  totalAttempts: 5,
-};
+import {grid, color} from '../../Constants';
 
 export default class EpinLoginComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: '',
-      attempts: grid.totalAttempts,
-      attemptMessage: '',
-      attemptMessage_Color: color.white,
-    };
+  state = {
+    modalVisible: false,
+  };
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
-  pinInput = React.createRef();
-
-  _checkCode = pin => {
-    // console.log(`PIN is ${pin}`);
-    if (pin !== '1234') {
-      this.pinInput.current.shake().then(() => this.setState({code: ''}));
-      if (this.state.attempts > 1) {
-        let {attempts} = this.state;
-        attempts = attempts - 1;
-        this.setState({
-          attempts,
-          attemptMessage: `You have ${attempts} more ${
-            attempts !== 1 ? 'tries' : 'chance'
-          }!`,
-          attemptMessage_Color: color.wrong,
-        });
-      } else {
-        this.setState({
-          attempts: grid.totalAttempts,
-          attemptMessage: 'WRONG AGAIN ! You are LOCKED',
-          attemptMessage_Color: color.wrong,
-        });
-      }
-    } else {
-      this.setState({
-        code: '',
-        attempts: grid.totalAttempts,
-        attemptMessage: 'SUCCESS! You are LoggedIn',
-        attemptMessage_Color: color.right,
-      });
-    }
-  };
-
-  handleTextChange = code => {
-    this.setState({code});
-    // console.log(code);
-  };
-
   render() {
-    const {code, attemptMessage, attemptMessage_Color} = this.state;
+    const {code, attemptMessage, attemptMessage_Color} = this.props;
 
     return (
       <View style={styles.viewport}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(!this.state.modalVisible);
+          }}>
+          {/* <View style={{marginTop: 22}}>
+            <View>
+              <Text>Hello World!</Text>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View> */}
+          <EpinForgetContainer />
+        </Modal>
         <StatusBar backgroundColor={color.shadow} barStyle="light-content" />
         <View style={styles.container}>
           {/* LOGO AREA for Logo view */}
@@ -116,7 +61,7 @@ export default class EpinLoginComponent extends Component {
             <View style={styles.pinviewContent}>
               <Text style={styles.pintitle}>Enter your ePIN</Text>
               <SmoothPinCodeInput
-                ref={this.pinInput}
+                ref={this.props.pinInput}
                 placeholder={<View style={styles.pinInputPlaceholder} />}
                 mask={<View style={styles.pinInputMask} />}
                 maskDelay={10}
@@ -125,8 +70,8 @@ export default class EpinLoginComponent extends Component {
                 cellStyle={null}
                 cellStyleFocused={null}
                 value={code}
-                onTextChange={this.handleTextChange}
-                onFulfill={this._checkCode}
+                onTextChange={this.props.handleTextChange}
+                onFulfill={this.props.checkCode}
                 restrictToNumbers={true}
               />
             </View>
@@ -142,7 +87,9 @@ export default class EpinLoginComponent extends Component {
             <View style={styles.footerSectionBottom}>
               <TouchableOpacity
                 style={styles.footerSubSection}
-                onPress={() => console.warn('Forgot ePIN Screen')}>
+                onPress={() => {
+                  this.setModalVisible(true);
+                }}>
                 <Icon
                   name={grid.forgotIcon}
                   size={grid.unit * 2.25}
