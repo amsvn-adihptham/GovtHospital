@@ -14,10 +14,10 @@ import {Transition} from 'react-native-reanimated';
 const SignUp = createAnimatedSwitchNavigator(
   {
     EpinLoginContainer: EpinLoginContainer,
+    EpinCreateContainer: EpinCreateContainer,
     LoginContainer: LoginContainer,
     SignUpContainer: SignUpContainer,
     ForgotPasswordContainer: ForgotPasswordContainer,
-    EpinCreateContainer: EpinCreateContainer,
     EpinForgetContainer: EpinForgetContainer,
     FAQContainer: FAQContainer,
     HomeNavigation: HomeNavigation,

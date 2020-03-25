@@ -1,22 +1,59 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Alert} from 'react-native';
 import EpinForgetComponent from '../../Components/UserSignUp/EpinForgetComponent';
 
+const mockData = {
+  email: 'amalsalvin97@gmail.com',
+  password: 'p',
+};
 export default class EpinForgetContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email: '',
+      password: '',
+      hidePassword: true,
+      warning: 'Incorrect email or password. Try again',
+      isVerified: false,
+    };
   }
 
-  navigatetoEpinLoginComponent = () => {
-    this.props.navigation.navigate('EpinLoginContainer');
+  handleEmail = text => {
+    this.setState({email: text});
+  };
+
+  handlePassword = text => {
+    this.setState({password: text});
+  };
+
+  setPasswordVisibility = () => {
+    this.setState({hidePassword: !this.state.hidePassword});
+  };
+
+  verifyUser = () => {
+    const {email, password} = this.state;
+    if (email === mockData.email && password === mockData.password) {
+      this.setState({isVerified: true});
+      this.props.navigatetoEpinCreateComponent();
+    } else {
+      Alert.alert('Wrong');
+      this.setState({isVerified: false});
+    }
   };
 
   render() {
     return (
       <View>
         <EpinForgetComponent
-          navigatetoEpinLogin={this.navigatetoEpinLoginComponent}
+          navigatetoEpinCreateComponent={
+            this.props.navigatetoEpinCreateComponent
+          }
+          closeModal={this.props.closeModal}
+          handleEmail={this.handleEmail}
+          handlePassword={this.handlePassword}
+          setPasswordVisibility={this.setPasswordVisibility}
+          hidePassword={this.state.hidePassword}
+          verifyUser={this.verifyUser}
         />
       </View>
     );

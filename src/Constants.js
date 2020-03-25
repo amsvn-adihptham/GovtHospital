@@ -8,7 +8,10 @@ export const color = {
   white: '#FFFFFF',
   black: '#000000',
   wrong: '#900',
+  wrong_opacity: '#BB5555',
   right: '#090',
+  red: '#D9261C',
+  pale_white: '#ffe',
 };
 
 export const grid = {

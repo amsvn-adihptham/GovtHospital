@@ -20,6 +20,10 @@ export default class EpinLoginContainer extends Component {
     this.props.navigation.navigate('EpinForgetContainer');
   };
 
+  navigatetoEpinCreateComponent = _id => {
+    this.props.navigation.navigate('EpinCreateContainer');
+  };
+
   checkCode = pin => {
     if (pin !== '1234') {
       this.pinInput.current.shake().then(() => this.setState({code: ''}));
@@ -58,7 +62,7 @@ export default class EpinLoginContainer extends Component {
     return (
       <View>
         <EpinLoginComponent
-          navigatetoEpinForget={this.navigatetoEpinForgetComponent}
+          navigatetoEpinCreateComponent={this.navigatetoEpinCreateComponent}
           code={this.state.code}
           attemptMessage={this.state.attemptMessage}
           attemptMessage_Color={this.state.attemptMessage_Color}

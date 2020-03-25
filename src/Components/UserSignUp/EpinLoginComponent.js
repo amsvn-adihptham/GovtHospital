@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Modal,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import EpinForgetContainer from '../../Container/UserSignUp/EpinForgetContainer';
@@ -29,34 +30,38 @@ export default class EpinLoginComponent extends Component {
       <View style={styles.viewport}>
         <Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
             this.setModalVisible(!this.state.modalVisible);
           }}>
-          {/* <View style={{marginTop: 22}}>
-            <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View> */}
-          <EpinForgetContainer />
+          <KeyboardAvoidingView
+            style={styles.modalView}
+            behavior="padding"
+            keyboardVerticalOffset={-grid.screenHeight}>
+            <EpinForgetContainer
+              closeModal={() => {
+                this.setModalVisible(false);
+              }}
+              navigatetoEpinCreateComponent={
+                this.props.navigatetoEpinCreateComponent
+              }
+            />
+          </KeyboardAvoidingView>
         </Modal>
+
         <StatusBar backgroundColor={color.shadow} barStyle="light-content" />
+
         <View style={styles.container}>
           {/* LOGO AREA for Logo view */}
+
           <View style={styles.logoview}>
             <View>
               <Image source={grid.logoImage_Http_URL} style={styles.logo} />
             </View>
           </View>
           {/* CENTER AREA for PIN view */}
+
           <View style={styles.pinview}>
             <View style={styles.pinviewContent}>
               <Text style={styles.pintitle}>Enter your ePIN</Text>
@@ -77,6 +82,7 @@ export default class EpinLoginComponent extends Component {
             </View>
           </View>
           {/* FOOTER AREA for Footer view */}
+
           <View style={styles.footerview}>
             <View style={styles.footerSectionTop}>
               <Text
@@ -91,7 +97,7 @@ export default class EpinLoginComponent extends Component {
                   this.setModalVisible(true);
                 }}>
                 <Icon
-                  name={grid.forgotIcon}
+                  name="phonelink-lock"
                   size={grid.unit * 2.25}
                   color={color.shadow}
                 />
@@ -137,6 +143,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     alignItems: 'flex-end',
+  },
+  modalView: {
+    height: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   pinviewContent: {
     height: '100%',
