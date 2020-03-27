@@ -14,7 +14,7 @@ export default class EpinForgetContainer extends Component {
       password: '',
       hidePassword: true,
       warning: 'Incorrect email or password. Try again',
-      isVerified: false,
+      isVerified: this.props.isVerified,
     };
   }
 
@@ -30,14 +30,20 @@ export default class EpinForgetContainer extends Component {
     this.setState({hidePassword: !this.state.hidePassword});
   };
 
-  verifyUser = () => {
+  verifyUser = (emailRef, passwordRef) => {
     const {email, password} = this.state;
     if (email === mockData.email && password === mockData.password) {
       this.setState({isVerified: true});
       this.props.navigatetoEpinCreateComponent();
     } else {
-      Alert.alert('Wrong');
-      this.setState({isVerified: false});
+      // Alert.alert('Wrong');
+      // emailRef.blur();
+      passwordRef.blur();
+      this.setState({
+        isVerified: false,
+        email: '',
+        password: '',
+      });
     }
   };
 
@@ -54,6 +60,9 @@ export default class EpinForgetContainer extends Component {
           setPasswordVisibility={this.setPasswordVisibility}
           hidePassword={this.state.hidePassword}
           verifyUser={this.verifyUser}
+          isVerified={this.state.isVerified}
+          email={this.state.email}
+          password={this.state.password}
         />
       </View>
     );

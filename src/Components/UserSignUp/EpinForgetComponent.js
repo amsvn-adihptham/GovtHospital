@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {grid, color} from '../../Constants';
+import {TextInput as PaperTextInput} from 'react-native-paper';
 
 const DismissKeyboard = props => {
   return (
@@ -24,6 +25,18 @@ export default class EpinForgetComponent extends Component {
     super(props);
     this.state = {};
   }
+
+  verified = () => {
+    if (!this.props.isVerified) {
+      return (
+        <View style={{alignItems: 'center'}}>
+          <Text style={{color: color.wrong, fontSize: grid.caption}}>
+            Wrong Email or Password.Try again!
+          </Text>
+        </View>
+      );
+    }
+  };
 
   render() {
     return (
@@ -51,7 +64,10 @@ export default class EpinForgetComponent extends Component {
         <View style={styles.formContainer}>
           {/* Email View */}
           <View>
-            <TextInput
+            <PaperTextInput
+              label="Email"
+              // placeholder="e.g., yourname@example.com"
+              mode="outlined"
               style={styles.input}
               autoCapitalize="none"
               keyboardType="email-address"
@@ -59,6 +75,8 @@ export default class EpinForgetComponent extends Component {
               autoCompleteType="off"
               autoFocus={true}
               blurOnSubmit={false}
+              error={!this.props.isVerified ? true : false}
+              value={this.props.email}
               onChangeText={this.props.handleEmail}
               ref={input => {
                 this.emailInput = input;
@@ -67,20 +85,24 @@ export default class EpinForgetComponent extends Component {
                 this.passwordInput.focus();
               }}
             />
-            <View style={styles.placeholder}>
-              <Text style={{fontSize: grid.unit}}>Email</Text>
-            </View>
           </View>
           {/* Password View */}
           <View>
-            <TextInput
+            <PaperTextInput
+              label="Password"
+              // placeholder="e.g., ●●●●●●●●"
+              mode="outlined"
               style={styles.input}
+              error={!this.props.isVerified ? true : false}
+              value={this.props.password}
               secureTextEntry={this.props.hidePassword}
               onChangeText={this.props.handlePassword}
               ref={input => {
                 this.passwordInput = input;
               }}
-              onSubmitEditing={this.props.verifyUser}
+              onSubmitEditing={() =>
+                this.props.verifyUser(this.emailInput, this.passwordInput)
+              }
             />
             <TouchableOpacity
               style={styles.visibilityIcon}
@@ -91,10 +113,8 @@ export default class EpinForgetComponent extends Component {
                 name={this.props.hidePassword ? 'visibility' : 'visibility-off'}
               />
             </TouchableOpacity>
-            <View style={styles.placeholder}>
-              <Text style={{fontSize: grid.unit}}>Password</Text>
-            </View>
           </View>
+          {this.verified()}
         </View>
         {/* Footer Container*/}
 
@@ -103,7 +123,9 @@ export default class EpinForgetComponent extends Component {
             <View>
               <TouchableOpacity
                 style={styles.submitButton}
-                onPress={this.props.verifyUser}>
+                onPress={() =>
+                  this.props.verifyUser(this.emailInput, this.passwordInput)
+                }>
                 <Text style={styles.submitButtonText}>Proceed</Text>
               </TouchableOpacity>
             </View>
@@ -145,12 +167,12 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   input: {
-    paddingLeft: 20,
-    opacity: 0.5,
-    borderRadius: 5,
+    // paddingLeft: 20,
+    // opacity: 0.5,
+    // borderRadius: 5,
     color: color.black,
     borderColor: color.shadow,
-    borderWidth: 0.5,
+    // borderWidth: 0.5,
     height: 60,
     fontSize: 20,
     marginHorizontal: 10,
@@ -193,6 +215,6 @@ const styles = StyleSheet.create({
   visibilityIcon: {
     position: 'absolute',
     right: 20,
-    top: 15,
+    top: 22,
   },
 });
