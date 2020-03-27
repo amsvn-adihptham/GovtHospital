@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Modal,
   KeyboardAvoidingView,
+  Keyboard,
 } from 'react-native';
 
 import EpinForgetContainer from '../../Container/UserSignUp/EpinForgetContainer';
@@ -18,6 +19,7 @@ import {grid, color} from '../../Constants';
 export default class EpinLoginComponent extends Component {
   state = {
     modalVisible: false,
+    isVerified: true,
   };
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
@@ -33,15 +35,18 @@ export default class EpinLoginComponent extends Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setModalVisible(!this.state.modalVisible);
+            this.setModalVisible(false);
+            this.setState({isVerified: false});
           }}>
           <KeyboardAvoidingView
             style={styles.modalView}
             behavior="padding"
             keyboardVerticalOffset={-grid.screenHeight}>
             <EpinForgetContainer
+              isVerified={this.state.isVerified}
               closeModal={() => {
                 this.setModalVisible(false);
+                this.setState({isVerified: false});
               }}
               navigatetoEpinCreateComponent={
                 this.props.navigatetoEpinCreateComponent
@@ -69,7 +74,7 @@ export default class EpinLoginComponent extends Component {
                 ref={this.props.pinInput}
                 placeholder={<View style={styles.pinInputPlaceholder} />}
                 mask={<View style={styles.pinInputMask} />}
-                maskDelay={10}
+                maskDelay={0}
                 codeLength={4}
                 password={true}
                 cellStyle={null}
@@ -95,6 +100,7 @@ export default class EpinLoginComponent extends Component {
                 style={styles.footerSubSection}
                 onPress={() => {
                   this.setModalVisible(true);
+                  this.setState({isVerified: true});
                 }}>
                 <Icon
                   name="phonelink-lock"

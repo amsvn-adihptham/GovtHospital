@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
+import {View, Keyboard} from 'react-native';
 import EpinLoginComponent from '../../Components/UserSignUp/EpinLoginComponent';
 import {grid, color} from '../../Constants';
 
@@ -27,6 +27,7 @@ export default class EpinLoginContainer extends Component {
   checkCode = pin => {
     if (pin !== '1234') {
       this.pinInput.current.shake().then(() => this.setState({code: ''}));
+      Keyboard.dismiss();
       if (this.state.attempts > 1) {
         let {attempts} = this.state;
         attempts = attempts - 1;
