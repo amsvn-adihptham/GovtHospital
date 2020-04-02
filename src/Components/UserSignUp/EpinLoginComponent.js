@@ -9,6 +9,7 @@ import {
   Modal,
   KeyboardAvoidingView,
   Keyboard,
+  Alert,
 } from 'react-native';
 
 import EpinForgetContainer from '../../Container/UserSignUp/EpinForgetContainer';
@@ -24,6 +25,12 @@ export default class EpinLoginComponent extends Component {
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
+
+  alert = () => {
+    if (this.props.attemptMessage === 'success') {
+      return Alert.alert('Success', 'You are Logged IN');
+    }
+  };
 
   render() {
     const {code, attemptMessage, attemptMessage_Color} = this.props;
@@ -75,6 +82,7 @@ export default class EpinLoginComponent extends Component {
                 placeholder={<View style={styles.pinInputPlaceholder} />}
                 mask={<View style={styles.pinInputMask} />}
                 maskDelay={0}
+                cellSpacing={15}
                 codeLength={4}
                 password={true}
                 cellStyle={null}
@@ -84,6 +92,7 @@ export default class EpinLoginComponent extends Component {
                 onFulfill={this.props.checkCode}
                 restrictToNumbers={true}
               />
+              {this.alert()}
             </View>
           </View>
           {/* FOOTER AREA for Footer view */}
@@ -92,7 +101,7 @@ export default class EpinLoginComponent extends Component {
             <View style={styles.footerSectionTop}>
               <Text
                 style={[styles.attempttitle, {color: attemptMessage_Color}]}>
-                {attemptMessage}
+                {attemptMessage === 'success' ? '' : attemptMessage}
               </Text>
             </View>
             <View style={styles.footerSectionBottom}>
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
   },
   attempttitle: {
     color: color.wrong,
-    fontSize: grid.unit * 1.5,
+    fontSize: grid.unit,
     marginBottom: 8,
   },
   logo: {

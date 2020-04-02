@@ -3,7 +3,7 @@ import {View, Alert} from 'react-native';
 import EpinForgetComponent from '../../Components/UserSignUp/EpinForgetComponent';
 
 const mockData = {
-  email: 'amalsalvin97@gmail.com',
+  email: 'a',
   password: 'p',
 };
 export default class EpinForgetContainer extends Component {

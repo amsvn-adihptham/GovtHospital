@@ -16,6 +16,8 @@ export default class EpinLoginContainer extends Component {
 
   pinInput = React.createRef();
 
+  createdPin = this.props.navigation.getParam('pin', 'NO-pin');
+
   navigatetoEpinForgetComponent = () => {
     this.props.navigation.navigate('EpinForgetContainer');
   };
@@ -25,7 +27,7 @@ export default class EpinLoginContainer extends Component {
   };
 
   checkCode = pin => {
-    if (pin !== '1234') {
+    if (pin !== this.createdPin) {
       this.pinInput.current.shake().then(() => this.setState({code: ''}));
       Keyboard.dismiss();
       if (this.state.attempts > 1) {
@@ -33,9 +35,9 @@ export default class EpinLoginContainer extends Component {
         attempts = attempts - 1;
         this.setState({
           attempts,
-          attemptMessage: `You have ${attempts} more ${
+          attemptMessage: `Wrong ePIN! You have ${attempts} more ${
             attempts !== 1 ? 'tries' : 'chance'
-          }!`,
+          }.`,
           attemptMessage_Color: color.wrong,
         });
       } else {
@@ -46,17 +48,18 @@ export default class EpinLoginContainer extends Component {
         });
       }
     } else {
+      Keyboard.dismiss();
       this.setState({
         code: '',
         attempts: grid.totalAttempts,
-        attemptMessage: 'SUCCESS! You are LoggedIn',
+        attemptMessage: 'success',
         attemptMessage_Color: color.right,
       });
     }
   };
 
   handleTextChange = code => {
-    this.setState({code});
+    this.setState({code, attemptMessage: ''});
   };
 
   render() {
@@ -70,8 +73,6 @@ export default class EpinLoginContainer extends Component {
           pinInput={this.pinInput}
           handleTextChange={this.handleTextChange}
           checkCode={this.checkCode}
-          color={color}
-          grid={grid}
         />
       </View>
     );
