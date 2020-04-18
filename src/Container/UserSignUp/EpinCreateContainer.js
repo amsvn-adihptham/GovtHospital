@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Keyboard} from 'react-native';
+import {View, Text, Keyboard, ToastAndroid} from 'react-native';
 import EpinCreateComponent from '../../Components/UserSignUp/EpinCreateComponent';
 import {grid, color} from '../../Constants';
 
@@ -18,6 +18,7 @@ export default class EpinCreateContainer extends Component {
   vpinView = React.createRef();
 
   navigatetoEpinLoginComponent = () => {
+    ToastAndroid.show('Success! ePIN created', ToastAndroid.SHORT);
     this.props.navigation.navigate('EpinLoginContainer', {
       pin: this.state.code,
     });
@@ -30,6 +31,7 @@ export default class EpinCreateContainer extends Component {
         message: 'New ePIN is created successfully.',
         pinVerified: true,
       });
+      this.navigatetoEpinLoginComponent();
     } else {
       this.setCreatepin(false);
       this.setState({

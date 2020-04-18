@@ -3,6 +3,7 @@ import {Dimensions, StatusBar} from 'react-native';
 export const color = {
   body: '#41CCC9',
   highlight: '#4D98CF',
+  highlight_opacity: 'rgba(77,152,207,0.4)',
   shadow: '#5A5386',
   button: '#524364',
   white: '#FFFFFF',

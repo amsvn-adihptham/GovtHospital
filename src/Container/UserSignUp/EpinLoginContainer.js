@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Keyboard} from 'react-native';
+import {View, Keyboard, ToastAndroid} from 'react-native';
 import EpinLoginComponent from '../../Components/UserSignUp/EpinLoginComponent';
+import HomeNavigation from '../Home/HomeNavigation';
 import {grid, color} from '../../Constants';
 
 export default class EpinLoginContainer extends Component {
@@ -17,6 +18,11 @@ export default class EpinLoginContainer extends Component {
   pinInput = React.createRef();
 
   createdPin = this.props.navigation.getParam('pin', 'NO-pin');
+
+  navigatetoHomeNavigation = () => {
+    ToastAndroid.show('Login Successful!', ToastAndroid.SHORT);
+    this.props.navigation.navigate('HomeNavigation');
+  };
 
   navigatetoEpinForgetComponent = () => {
     this.props.navigation.navigate('EpinForgetContainer');
@@ -55,6 +61,7 @@ export default class EpinLoginContainer extends Component {
         attemptMessage: 'success',
         attemptMessage_Color: color.right,
       });
+      this.navigatetoHomeNavigation();
     }
   };
 
@@ -67,6 +74,7 @@ export default class EpinLoginContainer extends Component {
       <View>
         <EpinLoginComponent
           navigatetoEpinCreateComponent={this.navigatetoEpinCreateComponent}
+          navigatetoHomeNavigation={this.navigatetoHomeNavigation}
           code={this.state.code}
           attemptMessage={this.state.attemptMessage}
           attemptMessage_Color={this.state.attemptMessage_Color}

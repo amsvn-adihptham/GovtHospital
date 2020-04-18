@@ -26,12 +26,6 @@ export default class EpinLoginComponent extends Component {
     this.setState({modalVisible: visible});
   }
 
-  alert = () => {
-    if (this.props.attemptMessage === 'success') {
-      return Alert.alert('Success', 'You are Logged IN');
-    }
-  };
-
   render() {
     const {code, attemptMessage, attemptMessage_Color} = this.props;
 
@@ -66,9 +60,35 @@ export default class EpinLoginComponent extends Component {
 
         <View style={styles.container}>
           {/* LOGO AREA for Logo view */}
-
           <View style={styles.logoview}>
-            <View>
+            <View
+              style={{
+                backgroundColor: color.highlight_opacity,
+                width: '100%',
+                height: 55,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderBottomLeftRadius: 15,
+                borderBottomRightRadius: 15,
+              }}>
+              <Text
+                style={{
+                  fontSize: grid.headline,
+                  color: color.pale_white,
+                  fontWeight: '700',
+                }}>
+                Login
+              </Text>
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                width: '100%',
+                paddingBottom: 15,
+                paddingLeft: 5,
+              }}>
               <Image source={grid.logoImage_Http_URL} style={styles.logo} />
             </View>
           </View>
@@ -92,7 +112,7 @@ export default class EpinLoginComponent extends Component {
                 onFulfill={this.props.checkCode}
                 restrictToNumbers={true}
               />
-              {this.alert()}
+              {/* {this.alert()} */}
             </View>
           </View>
           {/* FOOTER AREA for Footer view */}
@@ -105,19 +125,51 @@ export default class EpinLoginComponent extends Component {
               </Text>
             </View>
             <View style={styles.footerSectionBottom}>
-              <TouchableOpacity
-                style={styles.footerSubSection}
-                onPress={() => {
-                  this.setModalVisible(true);
-                  this.setState({isVerified: true});
-                }}>
-                <Icon
-                  name="phonelink-lock"
-                  size={grid.unit * 2.25}
-                  color={color.shadow}
-                />
-                <Text style={styles.footer_ForgotText}>Forgot your ePIN?</Text>
-              </TouchableOpacity>
+              <View style={styles.footerSubSection}>
+                <TouchableOpacity
+                  style={{alignItems: 'center'}}
+                  onPress={() => {
+                    this.setModalVisible(true);
+                    this.setState({isVerified: true});
+                  }}>
+                  <Icon
+                    name="phonelink-lock"
+                    size={grid.unit * 2}
+                    color={color.shadow}
+                  />
+                  <Text style={styles.footer_ForgotText}>
+                    Forgot your ePIN?
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            {/* Footer Info label */}
+            <View style={{paddingBottom: 10, alignItems: 'center'}}>
+              <Text style={styles.footerLabel}>
+                Stay Safe! Beware of Phishing Emails/SMS!
+              </Text>
+              <Text style={styles.footerLabel}>
+                Never share your ePIN's/OTPs/Passwords with anyone.
+              </Text>
+            </View>
+            {/* Footer Style Bump */}
+            <View style={{width: '100%'}}>
+              <View
+                style={{
+                  height: 8,
+                  borderColor: color.highlight,
+                  backgroundColor: color.highlight,
+                  borderWidth: 2,
+                }}
+              />
+              <View
+                style={{
+                  height: 5,
+                  borderColor: color.shadow,
+                  backgroundColor: color.shadow,
+                  borderWidth: 2,
+                }}
+              />
             </View>
           </View>
         </View>
@@ -138,7 +190,7 @@ const styles = StyleSheet.create({
   },
   logoview: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     height: '42%',
   },
   pinview: {
@@ -170,7 +222,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   footerSectionTop: {
-    height: '50%',
+    height: '35%',
     width: '100%',
     alignItems: 'center',
   },
@@ -179,9 +231,13 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-end',
   },
+  footerLabel: {
+    color: color.shadow,
+    fontSize: grid.caption,
+  },
   footerSubSection: {
     alignItems: 'center',
-    marginBottom: '5%',
+    marginBottom: 15,
   },
   footer_ForgotText: {
     fontSize: grid.unit * 1.25,

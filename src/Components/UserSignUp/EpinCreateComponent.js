@@ -36,14 +36,7 @@ export default class EpinCreateComponent extends Component {
   };
 
   renderAlert = () => {
-    if (this.props.pinVerified && this.state.code === this.state.vcode) {
-      Alert.alert('Congrats!', this.props.message, [
-        {
-          text: 'OK',
-          onPress: () => this.props.navigatetoEpinLogin(),
-        },
-      ]);
-    } else if (this.props.retry) {
+    if (this.props.retry) {
       return (
         <Animatable.Text
           animation="wobble"
@@ -118,7 +111,34 @@ export default class EpinCreateComponent extends Component {
         <StatusBar backgroundColor={color.shadow} barStyle="light-content" />
         {/* Header */}
         <View style={styles.subContainerHeader}>
-          <View>
+          <View
+            style={{
+              backgroundColor: color.highlight_opacity,
+              width: '100%',
+              height: 55,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderBottomLeftRadius: 15,
+              borderBottomRightRadius: 15,
+            }}>
+            <Text
+              style={{
+                fontSize: grid.headline,
+                color: color.pale_white,
+                fontWeight: '700',
+              }}>
+              Create ePIN
+            </Text>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%',
+              width: '100%',
+              paddingBottom: 15,
+              paddingLeft: 5,
+            }}>
             <Image source={grid.logoImage_Http_URL} style={styles.logo} />
           </View>
         </View>
@@ -129,15 +149,33 @@ export default class EpinCreateComponent extends Component {
         </View>
         {/* Footer */}
         <View style={styles.subContainerFooter}>
-          <TouchableOpacity
-            style={{backgroundColor: color.pale_white}}
-            onPress={() => this.props.setCreatepin(false)}>
-            <View>
-              <Text style={{fontSize: 20}}>Reset</Text>
-            </View>
-          </TouchableOpacity>
-          <Text>code:{this.props.code}</Text>
-          <Text>vcode:{this.props.vcode}</Text>
+          <View style={{paddingBottom: 10, alignItems: 'center'}}>
+            <Text style={styles.footerLabel}>
+              Stay Safe! Beware of Phishing Emails/SMS!
+            </Text>
+            <Text style={styles.footerLabel}>
+              Never share your ePIN's/OTPs/Passwords with anyone.
+            </Text>
+          </View>
+          {/* Footer Style Bump */}
+          <View style={{width: '100%'}}>
+            <View
+              style={{
+                height: 8,
+                borderColor: color.highlight,
+                backgroundColor: color.highlight,
+                borderWidth: 2,
+              }}
+            />
+            <View
+              style={{
+                height: 5,
+                borderColor: color.shadow,
+                backgroundColor: color.shadow,
+                borderWidth: 2,
+              }}
+            />
+          </View>
         </View>
       </View>
     );
@@ -154,7 +192,7 @@ const styles = StyleSheet.create({
     flex: 0.4,
     // height: '40%',
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   subContainerBody: {
@@ -165,10 +203,13 @@ const styles = StyleSheet.create({
   },
   subContainerFooter: {
     flex: 0.4,
-    // height: '40%',
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+  footerLabel: {
+    color: color.shadow,
+    fontSize: grid.caption,
   },
   pintitle: {
     color: color.shadow,
